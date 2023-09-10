@@ -41,11 +41,11 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<AccountBalanceViewModel> response = restTemplate.exchange(
+        ResponseEntity<AccountBalanceResponseDTO> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 entity,
-                AccountBalanceViewModel.class
+                AccountBalanceResponseDTO.class
         );
 
         return response.getBody().payload();
