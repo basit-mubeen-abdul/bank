@@ -1,5 +1,6 @@
 package com.fabrick.bank.config;
 
+import com.fabrick.bank.exception.handler.RestResponseErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -9,6 +10,8 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new RestResponseErrorHandler());
+        return restTemplate;
     }
 }
