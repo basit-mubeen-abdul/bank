@@ -1,0 +1,8 @@
+package com.fabrick.bank.account.transaction;
+
+import java.util.List;
+
+public interface AccountTransactionsService {
+
+    List<AccountTransactionDTO> find(Long accountId, String fromAccountingDate, String toAccountingDate);
+}
