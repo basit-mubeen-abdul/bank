@@ -37,9 +37,7 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
     @Override
     public List<AccountTransactionDTO> find(Long accountId, String fromAccountingDate, String toAccountingDate) {
 
-        //String url = baseUrl + accountTransactionsUrl.replace("{accountId}", String.valueOf(accountId));
-
-        String url = "https://sandbox.platfr.io/api/gbs/banking/v4.0/accounts/14537780/transactions?fromAccountingDate=2019-04-01&toAccountingDate=2019-04-1";
+        String url = baseUrl + accountTransactionsUrl.replace("{accountId}", String.valueOf(accountId));
 
         UriComponents urlWithQueryParams = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("fromAccountingDate",fromAccountingDate)
@@ -54,8 +52,7 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         ResponseEntity<AccountTransactionResponseDTO> response = restTemplate.exchange(
-                //urlWithQueryParams.toString(),
-                url,
+                urlWithQueryParams.toString(),
                 HttpMethod.GET,
                 entity,
                 AccountTransactionResponseDTO.class
