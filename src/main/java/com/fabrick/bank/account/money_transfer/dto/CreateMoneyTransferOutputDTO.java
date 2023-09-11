@@ -25,4 +25,35 @@ public record CreateMoneyTransferOutputDTO(
         List<FeeDTO> fees,
         boolean hasTaxRelief
 ) {
+
+    //TODO complete the builder
+    public static class Builder {
+
+        private String moneyTransferId;
+        private String status;
+
+        private Builder() {
+        }
+
+        public Builder moneyTransferId(String moneyTransferId) {
+            this.moneyTransferId = moneyTransferId;
+            return this;
+        }
+
+        public Builder status(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public CreateMoneyTransferOutputDTO build() {
+            return new CreateMoneyTransferOutputDTO(moneyTransferId, status, "direction", null, null,
+                    "cro", "uri", "trn", "description", null, null, "debtorValueDate",
+                    "creditorValueDate", null, false, false, "feeType", "feeType", null, false);
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
 }

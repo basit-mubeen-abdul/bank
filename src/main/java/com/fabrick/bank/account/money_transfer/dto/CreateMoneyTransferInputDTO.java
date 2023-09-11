@@ -30,4 +30,45 @@ public record CreateMoneyTransferInputDTO(
         @Valid
         TaxReliefDTO taxRelief
 ) {
+        //TODO complete the builder
+        public static class Builder {
+
+                private CreditorDTO creditor;
+                private String description;
+                private double amount;
+                private String currency;
+
+                private Builder() {
+                }
+
+                public Builder creditor(CreditorDTO creditor) {
+                        this.creditor = creditor;
+                        return this;
+                }
+
+                public Builder description(String description) {
+                        this.description = description;
+                        return this;
+                }
+
+                public Builder amount(double amount) {
+                        this.amount = amount;
+                        return this;
+                }
+
+                public Builder currency(String currency) {
+                        this.currency = currency;
+                        return this;
+                }
+
+                public CreateMoneyTransferInputDTO build() {
+                        return new CreateMoneyTransferInputDTO(creditor, "executionDate", "uri",
+                                description, amount, currency, false, false, "feeType",
+                                "feeAccountId", null);
+                }
+        }
+
+        public static Builder builder() {
+                return new Builder();
+        }
 }
