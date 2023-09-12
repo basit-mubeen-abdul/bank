@@ -1,6 +1,6 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.dto.inbound.AccountBalanceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

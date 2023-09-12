@@ -1,4 +1,4 @@
-package com.fabrick.bank.account.balance.outbound;
+package com.fabrick.bank.account.balance.dto.outbound;
 
 import com.fabrick.bank.common.ErrorDTO;
 

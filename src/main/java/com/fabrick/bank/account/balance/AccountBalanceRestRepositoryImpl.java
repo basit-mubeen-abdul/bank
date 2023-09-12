@@ -1,8 +1,8 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.dto.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.dto.outbound.AccountBalanceResponseDTO;
 import com.fabrick.bank.account.balance.mapper.AccountBalanceDTOMapper;
-import com.fabrick.bank.account.balance.outbound.AccountBalanceResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

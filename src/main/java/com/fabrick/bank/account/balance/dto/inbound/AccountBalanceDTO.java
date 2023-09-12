@@ -1,4 +1,4 @@
-package com.fabrick.bank.account.balance.inbound;
+package com.fabrick.bank.account.balance.dto.inbound;
 
 public record AccountBalanceDTO(
         String date,

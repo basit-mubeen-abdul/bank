@@ -1,4 +1,4 @@
-package com.fabrick.bank.account.balance.outbound;
+package com.fabrick.bank.account.balance.dto.outbound;
 
 public record AccountBalanceOutboundDTO(
         String date,

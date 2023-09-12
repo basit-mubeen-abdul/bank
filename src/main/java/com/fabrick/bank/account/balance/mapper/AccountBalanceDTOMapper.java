@@ -1,7 +1,7 @@
 package com.fabrick.bank.account.balance.mapper;
 
-import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
-import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+import com.fabrick.bank.account.balance.dto.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.dto.outbound.AccountBalanceOutboundDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

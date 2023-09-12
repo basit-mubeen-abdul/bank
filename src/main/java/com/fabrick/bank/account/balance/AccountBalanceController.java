@@ -1,6 +1,6 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.dto.inbound.AccountBalanceDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
