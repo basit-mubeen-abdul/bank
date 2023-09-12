@@ -113,8 +113,7 @@ class AccountTransactionsRestRepositoryImplTest {
                 .amount(EXPECTED_AMOUNT)
                 .currency(EXPECTED_CURRENCY)
                 .build();
-        List<AccountTransactionDTO> expectedAccountTransactionsList = List.of(expected);
-        return expectedAccountTransactionsList;
+        return List.of(expected);
     }
 
 }

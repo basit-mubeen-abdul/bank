@@ -17,7 +17,8 @@ public class AccountTransactionDTOMapper implements Function<AccountTransactionO
                 .operationId(accountTransactionOutboundDTO.operationId())
                 .accountingDate(accountTransactionOutboundDTO.accountingDate())
                 .valueDate(accountTransactionOutboundDTO.valueDate())
-                .type(new TransactionTypeOutboundDTO(accountTransactionOutboundDTO.type().enumeration(), accountTransactionOutboundDTO.type().value()))
+                .type(accountTransactionOutboundDTO.type() != null ? new TransactionTypeOutboundDTO(accountTransactionOutboundDTO.type().enumeration(),
+                        accountTransactionOutboundDTO.type().value()) : null)
                 .amount(accountTransactionOutboundDTO.amount())
                 .currency(accountTransactionOutboundDTO.currency())
                 .description(accountTransactionOutboundDTO.description())
