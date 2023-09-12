@@ -1,19 +1,17 @@
-package com.fabrick.bank.account.transaction;
+package com.fabrick.bank.account.transaction.outbound;
 
 import com.fabrick.bank.common.ErrorDTO;
-
-import java.util.List;
 
 public record AccountTransactionResponseDTO(
         String status,
         ErrorDTO[] errors,
-        List<AccountTransactionDTO> payload
+        AccountTransactionList payload
 ) {
 
     public static class Builder {
         private String status;
         private ErrorDTO[] errors;
-        private List<AccountTransactionDTO> payload;
+        private AccountTransactionList payload;
 
         private Builder() {
         }
@@ -28,7 +26,7 @@ public record AccountTransactionResponseDTO(
             return this;
         }
 
-        public Builder payload(List<AccountTransactionDTO> payload) {
+        public Builder payload(AccountTransactionList payload) {
             this.payload = payload;
             return this;
         }

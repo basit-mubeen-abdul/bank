@@ -1,5 +1,6 @@
 package com.fabrick.bank.account.transaction;
 
+import com.fabrick.bank.account.transaction.outbound.AccountTransactionResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,6 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
                 AccountTransactionResponseDTO.class
         );
 
-        return response.getBody().payload();
+        return response.getBody().payload().list();
     }
 }
