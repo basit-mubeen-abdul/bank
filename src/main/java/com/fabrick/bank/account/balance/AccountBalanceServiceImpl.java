@@ -1,6 +1,6 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +13,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     }
 
     @Override
-    public AccountBalanceOutboundDTO find(Long accountId) {
+    public AccountBalanceDTO find(Long accountId) {
         return accountBalanceRestRepository.find(accountId);
     }
 }

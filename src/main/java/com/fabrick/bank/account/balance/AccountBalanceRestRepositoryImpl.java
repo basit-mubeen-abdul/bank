@@ -1,6 +1,7 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.mapper.AccountBalanceDTOMapper;
 import com.fabrick.bank.account.balance.outbound.AccountBalanceResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -12,6 +13,8 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
 
     private final RestTemplate restTemplate;
 
+    private final AccountBalanceDTOMapper accountBalanceDTOMapper;
+
     private final String baseUrl;
 
     private final String accountBalanceUrl;
@@ -21,11 +24,13 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
     private final String authKey;
 
     public AccountBalanceRestRepositoryImpl(RestTemplate restTemplate,
+                                            AccountBalanceDTOMapper accountBalanceDTOMapper,
                                             @Value("${fabrick.baseurl}") String baseUrl,
                                             @Value("${fabrick.account.balance.url}") String accountBalanceUrl,
                                             @Value("${fabrick.headers.auth.schema}") String authSchema,
                                             @Value("${fabrick.headers.auth.key}") String authKey) {
         this.restTemplate = restTemplate;
+        this.accountBalanceDTOMapper = accountBalanceDTOMapper;
         this.baseUrl = baseUrl;
         this.accountBalanceUrl = accountBalanceUrl;
         this.authSchema = authSchema;
@@ -33,7 +38,7 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
     }
 
     @Override
-    public AccountBalanceOutboundDTO find(Long accountId) {
+    public AccountBalanceDTO find(Long accountId) {
 
         String url = baseUrl + accountBalanceUrl.replace("{accountId}", String.valueOf(accountId));
         HttpHeaders headers = new HttpHeaders();
@@ -50,6 +55,6 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
                 AccountBalanceResponseDTO.class
         );
 
-        return response.getBody().payload();
+        return accountBalanceDTOMapper.apply(response.getBody().payload());
     }
 }

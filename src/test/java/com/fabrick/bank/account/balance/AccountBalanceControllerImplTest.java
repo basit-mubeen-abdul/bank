@@ -1,6 +1,6 @@
 package com.fabrick.bank.account.balance;
 
-import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +34,7 @@ class AccountBalanceControllerImplTest {
     @Test
     void shouldFindAccountBalance() {
 
-        AccountBalanceOutboundDTO expected = AccountBalanceOutboundDTO.builder()
+        AccountBalanceDTO expected = AccountBalanceDTO.builder()
                 .date(EXPECTED_BALANCE_DATE)
                 .balance(EXPECTED_BALANCE)
                 .availableBalance(EXPECTED_AVAILABLE_BALANCE)

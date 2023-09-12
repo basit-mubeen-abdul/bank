@@ -1,19 +1,20 @@
 package com.fabrick.bank.account.balance;
 
+import com.fabrick.bank.account.balance.inbound.AccountBalanceDTO;
+import com.fabrick.bank.account.balance.mapper.AccountBalanceDTOMapper;
 import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
 import com.fabrick.bank.account.balance.outbound.AccountBalanceResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class AccountBalanceRestRepositoryImplTest {
@@ -33,9 +34,13 @@ class AccountBalanceRestRepositoryImplTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    private AccountBalanceDTOMapper accountBalanceDTOMapper;
+
     @BeforeEach
     void setUp() {
         sut = new AccountBalanceRestRepositoryImpl(restTemplate,
+                accountBalanceDTOMapper,
                 BASE_URL,
                 ACCOUNT_BALANCE_URL,
                 AUTH_SCHEMA,
@@ -46,6 +51,11 @@ class AccountBalanceRestRepositoryImplTest {
     void shouldFindAccountBalance() {
 
         AccountBalanceOutboundDTO expectedAccountBalance = AccountBalanceOutboundDTO.builder()
+                .date(EXPECTED_BALANCE_DATE)
+                .balance(EXPECTED_BALANCE)
+                .availableBalance(EXPECTED_AVAILABLE_BALANCE)
+                .build();
+        AccountBalanceDTO accountBalanceDTO = AccountBalanceDTO.builder()
                 .date(EXPECTED_BALANCE_DATE)
                 .balance(EXPECTED_BALANCE)
                 .availableBalance(EXPECTED_AVAILABLE_BALANCE)
@@ -65,12 +75,17 @@ class AccountBalanceRestRepositoryImplTest {
                 HttpMethod.GET,
                 entity,
                 AccountBalanceResponseDTO.class)).willReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        given(accountBalanceDTOMapper.apply(expectedAccountBalance))
+                .willReturn(accountBalanceDTO);
 
         var result = sut.find(INPUT_ACCOUNT_ID);
 
-        verify(restTemplate)
+        var inOrder = Mockito.inOrder(restTemplate, accountBalanceDTOMapper);
+        inOrder.verify(restTemplate)
                 .exchange(url, HttpMethod.GET, entity, AccountBalanceResponseDTO.class);
-        verifyNoMoreInteractions(restTemplate);
+        inOrder.verify(accountBalanceDTOMapper)
+                .apply(expectedAccountBalance);
+        inOrder.verifyNoMoreInteractions();
         assertEquals(EXPECTED_BALANCE_DATE, result.date());
         assertEquals(EXPECTED_BALANCE, result.balance());
         assertEquals(EXPECTED_AVAILABLE_BALANCE, result.availableBalance());
