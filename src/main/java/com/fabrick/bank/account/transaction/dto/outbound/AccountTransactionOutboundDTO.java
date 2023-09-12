@@ -1,11 +1,11 @@
 package com.fabrick.bank.account.transaction.dto.outbound;
 
-public record AccountTransactionDTO(
+public record AccountTransactionOutboundDTO(
         String transactionId,
         String operationId,
         String accountingDate,
         String valueDate,
-        TransactionTypeDTO type,
+        TransactionTypeOutboundDTO type,
         Double amount,
         String currency,
         String description
@@ -17,7 +17,7 @@ public record AccountTransactionDTO(
         private String operationId;
         private String accountingDate;
         private String valueDate;
-        private TransactionTypeDTO type;
+        private TransactionTypeOutboundDTO type;
         private Double amount;
         private String currency;
         private String description;
@@ -45,7 +45,7 @@ public record AccountTransactionDTO(
             return this;
         }
 
-        public Builder type(TransactionTypeDTO type) {
+        public Builder type(TransactionTypeOutboundDTO type) {
             this.type = type;
             return this;
         }
@@ -65,8 +65,8 @@ public record AccountTransactionDTO(
             return this;
         }
 
-        public AccountTransactionDTO build() {
-            return new AccountTransactionDTO(transactionId, operationId, accountingDate, valueDate,
+        public AccountTransactionOutboundDTO build() {
+            return new AccountTransactionOutboundDTO(transactionId, operationId, accountingDate, valueDate,
                     type, amount, currency, description);
         }
     }

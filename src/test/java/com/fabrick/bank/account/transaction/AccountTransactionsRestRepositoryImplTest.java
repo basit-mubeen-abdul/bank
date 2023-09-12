@@ -1,12 +1,15 @@
 package com.fabrick.bank.account.transaction;
 
-import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
+import com.fabrick.bank.account.transaction.dto.inbound.AccountTransactionDTO;
 import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionListOutboundDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionOutboundDTO;
 import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionResponseDTO;
+import com.fabrick.bank.account.transaction.mapper.AccountTransactionListDTOMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +18,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class AccountTransactionsRestRepositoryImplTest {
@@ -40,9 +41,13 @@ class AccountTransactionsRestRepositoryImplTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    private AccountTransactionListDTOMapper accountTransactionListDTOMapper;
+
     @BeforeEach
     void setUp() {
         sut = new AccountTransactionsRestRepositoryImpl(restTemplate,
+                accountTransactionListDTOMapper,
                 BASE_URL,
                 ACCOUNT_TRANSACTIONS_URL,
                 AUTH_SCHEMA,
@@ -52,20 +57,8 @@ class AccountTransactionsRestRepositoryImplTest {
     @Test
     void shouldFindAccountTransactions() {
 
-        AccountTransactionDTO expected = AccountTransactionDTO.builder()
-                .transactionId(EXPECTED_TRANSACTION_ID)
-                .accountingDate(EXPECTED_ACCOUNTING_DATE)
-                .amount(EXPECTED_AMOUNT)
-                .currency(EXPECTED_CURRENCY)
-                .build();
-        List<AccountTransactionDTO> expectedAccountTransactionsList = List.of(expected);
-        AccountTransactionListOutboundDTO accountTransactionList = AccountTransactionListOutboundDTO.builder()
-                .list(expectedAccountTransactionsList)
-                .build();
-        AccountTransactionResponseDTO expectedResponse = AccountTransactionResponseDTO.builder()
-                .status("OK")
-                .payload(accountTransactionList)
-                .build();
+        AccountTransactionResponseDTO expectedOutboundResponse = buildExceptedOutboundResponse();
+        List<AccountTransactionDTO> expectedResponse = buildExceptedResponse();
         String url = BASE_URL + ACCOUNT_TRANSACTIONS_URL.replace("{accountId}", String.valueOf(INPUT_ACCOUNT_ID)) +
                 "?fromAccountingDate=" + FROM_ACCOUNTING_DATE + "&toAccountingDate=" + TO_ACCOUNTING_DATE;
         HttpHeaders headers = new HttpHeaders();
@@ -77,16 +70,51 @@ class AccountTransactionsRestRepositoryImplTest {
                 url,
                 HttpMethod.GET,
                 entity,
-                AccountTransactionResponseDTO.class)).willReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+                AccountTransactionResponseDTO.class)).willReturn(new ResponseEntity<>(expectedOutboundResponse, HttpStatus.OK));
+        given(accountTransactionListDTOMapper.apply(expectedOutboundResponse.payload().list()))
+                .willReturn(expectedResponse);
 
         var result = sut.find(INPUT_ACCOUNT_ID, FROM_ACCOUNTING_DATE, TO_ACCOUNTING_DATE);
 
-        verify(restTemplate)
+        var inOrder = Mockito.inOrder(restTemplate, accountTransactionListDTOMapper);
+        inOrder.verify(restTemplate)
                 .exchange(url, HttpMethod.GET, entity, AccountTransactionResponseDTO.class);
-        verifyNoMoreInteractions(restTemplate);
+        inOrder.verify(accountTransactionListDTOMapper)
+                .apply(expectedOutboundResponse.payload().list());
+        inOrder.verifyNoMoreInteractions();
         assertEquals(EXPECTED_TRANSACTION_ID, result.get(0).transactionId());
         assertEquals(EXPECTED_ACCOUNTING_DATE, result.get(0).accountingDate());
         assertEquals(EXPECTED_AMOUNT, result.get(0).amount());
         assertEquals(EXPECTED_CURRENCY, result.get(0).currency());
     }
+
+    private AccountTransactionResponseDTO buildExceptedOutboundResponse() {
+        AccountTransactionOutboundDTO expected = AccountTransactionOutboundDTO.builder()
+                .transactionId(EXPECTED_TRANSACTION_ID)
+                .accountingDate(EXPECTED_ACCOUNTING_DATE)
+                .amount(EXPECTED_AMOUNT)
+                .currency(EXPECTED_CURRENCY)
+                .build();
+        List<AccountTransactionOutboundDTO> expectedAccountTransactionsList = List.of(expected);
+        AccountTransactionListOutboundDTO accountTransactionList = AccountTransactionListOutboundDTO.builder()
+                .list(expectedAccountTransactionsList)
+                .build();
+        AccountTransactionResponseDTO expectedResponse = AccountTransactionResponseDTO.builder()
+                .status("OK")
+                .payload(accountTransactionList)
+                .build();
+        return expectedResponse;
+    }
+
+    private List<AccountTransactionDTO> buildExceptedResponse() {
+        AccountTransactionDTO expected = AccountTransactionDTO.builder()
+                .transactionId(EXPECTED_TRANSACTION_ID)
+                .accountingDate(EXPECTED_ACCOUNTING_DATE)
+                .amount(EXPECTED_AMOUNT)
+                .currency(EXPECTED_CURRENCY)
+                .build();
+        List<AccountTransactionDTO> expectedAccountTransactionsList = List.of(expected);
+        return expectedAccountTransactionsList;
+    }
+
 }

@@ -1,7 +1,8 @@
 package com.fabrick.bank.account.transaction;
 
-import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
+import com.fabrick.bank.account.transaction.dto.inbound.AccountTransactionDTO;
 import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionResponseDTO;
+import com.fabrick.bank.account.transaction.mapper.AccountTransactionListDTOMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
 
     private final RestTemplate restTemplate;
 
+    private final AccountTransactionListDTOMapper accountTransactionListDTOMapper;
+
     private final String baseUrl;
 
     private final String accountTransactionsUrl;
@@ -25,11 +28,13 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
     private final String authKey;
 
     public AccountTransactionsRestRepositoryImpl(RestTemplate restTemplate,
+                                                 AccountTransactionListDTOMapper accountTransactionListDTOMapper,
                                                 @Value("${fabrick.baseurl}") String baseUrl,
                                                 @Value("${fabrick.account.transactions.url}") String accountTransactionsUrl,
                                                 @Value("${fabrick.headers.auth.schema}") String authSchema,
                                                 @Value("${fabrick.headers.auth.key}") String authKey) {
         this.restTemplate = restTemplate;
+        this.accountTransactionListDTOMapper = accountTransactionListDTOMapper;
         this.baseUrl = baseUrl;
         this.accountTransactionsUrl = accountTransactionsUrl;
         this.authSchema = authSchema;
@@ -60,6 +65,6 @@ public class AccountTransactionsRestRepositoryImpl implements AccountTransaction
                 AccountTransactionResponseDTO.class
         );
 
-        return response.getBody().payload().list();
+        return accountTransactionListDTOMapper.apply(response.getBody().payload().list());
     }
 }

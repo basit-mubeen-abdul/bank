@@ -4,18 +4,18 @@ import java.util.List;
 
 public record AccountTransactionListOutboundDTO(
 
-        List<AccountTransactionDTO> list
+        List<AccountTransactionOutboundDTO> list
 
 ) {
 
     public static class Builder {
 
-        private List<AccountTransactionDTO> list;
+        private List<AccountTransactionOutboundDTO> list;
 
         private Builder() {
         }
 
-        public Builder list(List<AccountTransactionDTO> list) {
+        public Builder list(List<AccountTransactionOutboundDTO> list) {
             this.list = list;
             return this;
         }

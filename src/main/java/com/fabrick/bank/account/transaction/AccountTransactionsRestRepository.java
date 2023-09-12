@@ -1,6 +1,6 @@
 package com.fabrick.bank.account.transaction;
 
-import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
+import com.fabrick.bank.account.transaction.dto.inbound.AccountTransactionDTO;
 
 import java.util.List;
 
