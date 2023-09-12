@@ -1,5 +1,7 @@
 package com.fabrick.bank.account.balance;
 
+import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+import com.fabrick.bank.account.balance.outbound.AccountBalanceResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,7 @@ public class AccountBalanceRestRepositoryImpl implements AccountBalanceRestRepos
     }
 
     @Override
-    public AccountBalanceDTO find(Long accountId) {
+    public AccountBalanceOutboundDTO find(Long accountId) {
 
         String url = baseUrl + accountBalanceUrl.replace("{accountId}", String.valueOf(accountId));
         HttpHeaders headers = new HttpHeaders();

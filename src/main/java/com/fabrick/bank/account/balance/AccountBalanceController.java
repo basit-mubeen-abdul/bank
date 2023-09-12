@@ -1,5 +1,6 @@
 package com.fabrick.bank.account.balance;
 
+import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,5 +34,5 @@ public interface AccountBalanceController {
                     )
             }
     )
-    ResponseEntity<AccountBalanceDTO> find(@PathVariable("accountId") Long accountId);
+    ResponseEntity<AccountBalanceOutboundDTO> find(@PathVariable("accountId") Long accountId);
 }

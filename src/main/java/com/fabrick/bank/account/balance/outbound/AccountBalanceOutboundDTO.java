@@ -1,6 +1,6 @@
-package com.fabrick.bank.account.balance;
+package com.fabrick.bank.account.balance.outbound;
 
-public record AccountBalanceDTO(
+public record AccountBalanceOutboundDTO(
         String date,
         Double balance,
         Double availableBalance,
@@ -37,8 +37,8 @@ public record AccountBalanceDTO(
             return this;
         }
 
-        public AccountBalanceDTO build() {
-            return new AccountBalanceDTO(date, balance, availableBalance, currency);
+        public AccountBalanceOutboundDTO build() {
+            return new AccountBalanceOutboundDTO(date, balance, availableBalance, currency);
         }
     }
 

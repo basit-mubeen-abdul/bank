@@ -1,6 +1,8 @@
 package com.fabrick.bank.account.balance;
 
+import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
+
 public interface AccountBalanceRestRepository {
 
-    AccountBalanceDTO find(Long accountId);
+    AccountBalanceOutboundDTO find(Long accountId);
 }

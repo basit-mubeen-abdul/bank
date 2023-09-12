@@ -1,17 +1,17 @@
-package com.fabrick.bank.account.balance;
+package com.fabrick.bank.account.balance.outbound;
 
 import com.fabrick.bank.common.ErrorDTO;
 
 public record AccountBalanceResponseDTO(
         String status,
         ErrorDTO[] errors,
-        AccountBalanceDTO payload
+        AccountBalanceOutboundDTO payload
 ) {
 
     public static class Builder {
         private String status;
         private ErrorDTO[] errors;
-        private AccountBalanceDTO payload;
+        private AccountBalanceOutboundDTO payload;
 
         private Builder() {
         }
@@ -26,7 +26,7 @@ public record AccountBalanceResponseDTO(
             return this;
         }
 
-        public Builder payload(AccountBalanceDTO payload) {
+        public Builder payload(AccountBalanceOutboundDTO payload) {
             this.payload = payload;
             return this;
         }

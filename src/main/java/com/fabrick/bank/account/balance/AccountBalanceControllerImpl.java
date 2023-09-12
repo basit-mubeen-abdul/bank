@@ -1,5 +1,6 @@
 package com.fabrick.bank.account.balance;
 
+import com.fabrick.bank.account.balance.outbound.AccountBalanceOutboundDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class AccountBalanceControllerImpl implements AccountBalanceController {
     }
 
     @Override
-    public ResponseEntity<AccountBalanceDTO> find(Long accountId) {
+    public ResponseEntity<AccountBalanceOutboundDTO> find(Long accountId) {
         return ResponseEntity.ok(findAccountBalanceService.find(accountId));
     }
 }
