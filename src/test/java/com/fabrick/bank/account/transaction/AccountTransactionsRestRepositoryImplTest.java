@@ -1,7 +1,8 @@
 package com.fabrick.bank.account.transaction;
 
-import com.fabrick.bank.account.transaction.outbound.AccountTransactionList;
-import com.fabrick.bank.account.transaction.outbound.AccountTransactionResponseDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionListOutboundDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,7 +59,7 @@ class AccountTransactionsRestRepositoryImplTest {
                 .currency(EXPECTED_CURRENCY)
                 .build();
         List<AccountTransactionDTO> expectedAccountTransactionsList = List.of(expected);
-        AccountTransactionList accountTransactionList = AccountTransactionList.builder()
+        AccountTransactionListOutboundDTO accountTransactionList = AccountTransactionListOutboundDTO.builder()
                 .list(expectedAccountTransactionsList)
                 .build();
         AccountTransactionResponseDTO expectedResponse = AccountTransactionResponseDTO.builder()

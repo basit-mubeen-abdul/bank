@@ -1,10 +1,8 @@
-package com.fabrick.bank.account.transaction.outbound;
-
-import com.fabrick.bank.account.transaction.AccountTransactionDTO;
+package com.fabrick.bank.account.transaction.dto.outbound;
 
 import java.util.List;
 
-public record AccountTransactionList(
+public record AccountTransactionListOutboundDTO(
 
         List<AccountTransactionDTO> list
 
@@ -22,8 +20,8 @@ public record AccountTransactionList(
             return this;
         }
 
-        public AccountTransactionList build() {
-            return new AccountTransactionList(list);
+        public AccountTransactionListOutboundDTO build() {
+            return new AccountTransactionListOutboundDTO(list);
         }
     }
 

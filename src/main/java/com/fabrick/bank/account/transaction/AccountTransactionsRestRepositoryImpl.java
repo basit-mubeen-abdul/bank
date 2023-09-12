@@ -1,6 +1,7 @@
 package com.fabrick.bank.account.transaction;
 
-import com.fabrick.bank.account.transaction.outbound.AccountTransactionResponseDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

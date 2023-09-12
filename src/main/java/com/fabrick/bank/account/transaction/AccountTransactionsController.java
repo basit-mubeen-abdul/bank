@@ -1,5 +1,6 @@
 package com.fabrick.bank.account.transaction;
 
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

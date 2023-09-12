@@ -1,5 +1,6 @@
 package com.fabrick.bank.account.transaction;
 
+import com.fabrick.bank.account.transaction.dto.outbound.AccountTransactionDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
