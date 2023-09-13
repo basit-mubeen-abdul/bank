@@ -50,20 +50,9 @@ class AccountBalanceRestRepositoryImplTest {
     @Test
     void shouldFindAccountBalance() {
 
-        AccountBalanceOutboundDTO expectedAccountBalance = AccountBalanceOutboundDTO.builder()
-                .date(EXPECTED_BALANCE_DATE)
-                .balance(EXPECTED_BALANCE)
-                .availableBalance(EXPECTED_AVAILABLE_BALANCE)
-                .build();
-        AccountBalanceDTO accountBalanceDTO = AccountBalanceDTO.builder()
-                .date(EXPECTED_BALANCE_DATE)
-                .balance(EXPECTED_BALANCE)
-                .availableBalance(EXPECTED_AVAILABLE_BALANCE)
-                .build();
-        AccountBalanceResponseDTO expectedResponse = AccountBalanceResponseDTO.builder()
-                .status("OK")
-                .payload(expectedAccountBalance)
-                .build();
+        AccountBalanceOutboundDTO accountBalance = buildExpectedAccountBalance();
+        AccountBalanceResponseDTO accountBalanceResponseDTO = buildExpectedResponse(accountBalance);
+        AccountBalanceDTO expectedAccountBalanceDTO = buildExpectedAccountBalanceDTO();
         String url = BASE_URL + ACCOUNT_BALANCE_URL.replace("{accountId}", String.valueOf(INPUT_ACCOUNT_ID));
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -74,9 +63,9 @@ class AccountBalanceRestRepositoryImplTest {
                 url,
                 HttpMethod.GET,
                 entity,
-                AccountBalanceResponseDTO.class)).willReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
-        given(accountBalanceDTOMapper.apply(expectedAccountBalance))
-                .willReturn(accountBalanceDTO);
+                AccountBalanceResponseDTO.class)).willReturn(new ResponseEntity<>(accountBalanceResponseDTO, HttpStatus.OK));
+        given(accountBalanceDTOMapper.apply(accountBalance))
+                .willReturn(expectedAccountBalanceDTO);
 
         var result = sut.find(INPUT_ACCOUNT_ID);
 
@@ -84,10 +73,33 @@ class AccountBalanceRestRepositoryImplTest {
         inOrder.verify(restTemplate)
                 .exchange(url, HttpMethod.GET, entity, AccountBalanceResponseDTO.class);
         inOrder.verify(accountBalanceDTOMapper)
-                .apply(expectedAccountBalance);
+                .apply(accountBalance);
         inOrder.verifyNoMoreInteractions();
         assertEquals(EXPECTED_BALANCE_DATE, result.date());
         assertEquals(EXPECTED_BALANCE, result.balance());
         assertEquals(EXPECTED_AVAILABLE_BALANCE, result.availableBalance());
+    }
+
+    private AccountBalanceOutboundDTO buildExpectedAccountBalance() {
+        return AccountBalanceOutboundDTO.builder()
+                .date(EXPECTED_BALANCE_DATE)
+                .balance(EXPECTED_BALANCE)
+                .availableBalance(EXPECTED_AVAILABLE_BALANCE)
+                .build();
+    }
+
+    private AccountBalanceResponseDTO buildExpectedResponse(AccountBalanceOutboundDTO expectedAccountBalance) {
+        return AccountBalanceResponseDTO.builder()
+                .status("OK")
+                .payload(expectedAccountBalance)
+                .build();
+    }
+
+    private AccountBalanceDTO buildExpectedAccountBalanceDTO() {
+        return AccountBalanceDTO.builder()
+                .date(EXPECTED_BALANCE_DATE)
+                .balance(EXPECTED_BALANCE)
+                .availableBalance(EXPECTED_AVAILABLE_BALANCE)
+                .build();
     }
 }
